@@ -19,7 +19,7 @@ class App extends Component {
   }
   
   async handleSubmit(userInput){
-    let data = await fetch("http://api.openweathermap.org/data/2.5/weather?q=" + userInput + "&APPID=" + APIKEY).then(response => response.json());
+    let data = await fetch("https://api.openweathermap.org/data/2.5/weather?q=" + userInput + "&APPID=" + APIKEY).then(response => response.json());
     if(data.cod !== "404") {
       this.setState({
         city: data.name,
