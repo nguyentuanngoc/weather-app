@@ -1,12 +1,54 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
+import './style.scss'
+import SearchBar from './components/search-bar';
+import WeatherInfo from './components/weather-info'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const APIKEY = "52d025ce03991bcf2c4ea0a3b493e259";
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {
+      city: undefined,
+      temp: undefined,
+      condition: undefined,
+      description: undefined,
+      isFound: undefined,
+    }
+  }
+  
+  async handleSubmit(userInput){
+    let data = await fetch("http://api.openweathermap.org/data/2.5/weather?q=" + userInput + "&APPID=" + APIKEY).then(response => response.json());
+    if(data.cod !== "404") {
+      this.setState({
+        city: data.name,
+        temp: data.main.temp,
+        condition: data.weather[0].main,
+        description: data.weather[0].description,
+        isFound: true,
+    });
+    }
+    else {
+      this.setState({isFound: false});
+    }
+  }
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+  render() {
+    let backgroundChange = null;
+    if (this.state.isFound === true) {
+      backgroundChange =  {
+        backgroundImage: "url(" + "https://source.unsplash.com/featured/random/?" + this.state.condition + ")", 
+      };
+    }
+    return (
+      <React.Fragment>
+        <div><div className="background-image" style={backgroundChange}></div></div>
+        <WeatherInfo data={this.state} />
+        <SearchBar handleSubmit={this.handleSubmit} />
+      </React.Fragment>
+    )
+  }
+}
+
+ReactDOM.render(<App/>, document.getElementById('root'));
