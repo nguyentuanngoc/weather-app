@@ -43,9 +43,11 @@ class App extends Component {
     }
     return (
       <React.Fragment>
-        <div><div className="background-image" style={backgroundChange}></div></div>
-        <WeatherInfo data={this.state} />
-        <SearchBar handleSubmit={this.handleSubmit} />
+        <div id="background"><div id="background-image" style={backgroundChange}></div></div>
+        <div id="content">
+          <WeatherInfo data={this.state} />
+          <SearchBar handleSubmit={this.handleSubmit} />
+        </div>
       </React.Fragment>
     )
   }
