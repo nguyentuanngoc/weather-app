@@ -15,7 +15,7 @@ export default class SearchBar extends Component {
   render() { 
     return (
       <form onSubmit={this.handleSubmit}>
-        <input type="text" name="user-input" placeholder="Enter city's name"></input>
+        <input type="text" name="user-input" placeholder="Enter city's name" autoComplete="off"></input>
         <button type="submit">Search</button>
       </form>
     )
